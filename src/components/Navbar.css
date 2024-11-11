@@ -1,0 +1,32 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #f8f9fa;
+  }
+  
+  .navbar-logo img {
+    height: 50px;
+    margin-right: 20px;
+  }
+  
+  .navbar-menu {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    margin: 0;
+  }
+  
+  .navbar-menu li {
+    margin-right: 15px;
+  }
+  
+  .navbar-menu li a {
+    text-decoration: none;
+    color: #007bff;
+  }
+  
+  .navbar-menu li a:hover {
+    text-decoration: underline;
+  }
+  
