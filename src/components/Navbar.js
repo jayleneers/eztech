@@ -11,7 +11,7 @@ const Navbar = () => {
         <img src={logo} alt="Company Logo" />
       </div>
       <ul className="navbar-menu">
-        <li><Link to="/">StreamList</Link></li>
+        <li><Link to="/">Home</Link></li>
         <li><Link to="/movies">Movies</Link></li>
         <li><Link to="/cart">Cart</Link></li>
         <li><Link to="/about">About</Link></li>

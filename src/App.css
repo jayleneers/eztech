@@ -1,5 +1,10 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Sour Gummy', sans-serif;
+  font-size: 18px; 
+  line-height: 1.6; 
+  margin: 20px; 
+  background-color: #f0f0f0;
+  color: #333;
 }
 
 nav ul {
@@ -9,12 +14,13 @@ nav ul {
 
 nav ul li {
   display: inline;
-  margin-right: 10px;
+  margin-right: 15px; 
 }
 
 nav ul li a {
   text-decoration: none;
   color: #007bff;
+  font-size: 20px; 
 }
 
 nav ul li a:hover {
@@ -23,9 +29,10 @@ nav ul li a:hover {
 
 h1 {
   color: #333;
+  font-size: 32px;
 }
 
 input {
-  padding: 5px;
-  margin-top: 10px;
+  padding: 10px;
+  margin-top: 15px; 
 }

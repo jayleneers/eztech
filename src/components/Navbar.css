@@ -1,32 +1,25 @@
 .navbar {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    background-color: #f8f9fa;
-  }
-  
-  .navbar-logo img {
-    height: 50px;
-    margin-right: 20px;
-  }
-  
-  .navbar-menu {
-    list-style-type: none;
-    padding: 0;
-    display: flex;
-    margin: 0;
-  }
-  
-  .navbar-menu li {
-    margin-right: 15px;
-  }
-  
-  .navbar-menu li a {
-    text-decoration: none;
-    color: #007bff;
-  }
-  
-  .navbar-menu li a:hover {
-    text-decoration: underline;
-  }
-  
+  background-color: #f0f0f0;
+  padding: 10px;
+}
+
+.navbar ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.navbar ul li {
+  margin-right: 15px;
+}
+
+.navbar ul li a {
+  color: rgb(15, 17, 23);
+  text-decoration: none;
+  font-size: 20px;
+}
+
+.navbar ul li a:hover {
+  text-decoration: underline;
+}
