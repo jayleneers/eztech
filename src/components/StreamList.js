@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const StreamList = () => {
-  const [myList, setMyList] = useState([]);
+const StreamList = ({ handleAddItem, handleDeleteItem }) => {
+  const [myList, setMyList] = useState(() => {
+    const saved = localStorage.getItem('myList');
+    return saved ? JSON.parse(saved) : [];
+  });
   const [searchInput, setSearchInput] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-  const [editIndex, setEditIndex] = useState(null);
-  const [editInput, setEditInput] = useState('');
 
   const predefinedTopMovies = ['Inception', 'The Dark Knight', 'Interstellar'];
   const predefinedNewMovies = ['Dune', 'No Time to Die', 'Shang-Chi'];
@@ -15,7 +16,11 @@ const StreamList = () => {
     ...predefinedNewMovies,
   ];
 
-  const handleAddItem = (item) => {
+  useEffect(() => {
+    localStorage.setItem('myList', JSON.stringify(myList));
+  }, [myList]);
+
+  const handleAddItemInternal = (item) => {
     setMyList((prev) => [...prev, { text: item, completed: false }]);
   };
 
@@ -33,24 +38,6 @@ const StreamList = () => {
     } else {
       setSearchResults([]);
     }
-  };
-
-  const handleEditChange = (e) => {
-    setEditInput(e.target.value);
-  };
-
-  const handleEditSubmit = (index) => {
-    const updatedList = myList.map((item, i) =>
-      i === index ? { ...item, text: editInput } : item
-    );
-    setMyList(updatedList);
-    setEditIndex(null);
-    setEditInput('');
-  };
-
-  const handleDelete = (index) => {
-    const updatedList = myList.filter((_, i) => i !== index);
-    setMyList(updatedList);
   };
 
   const handleComplete = (index) => {
@@ -83,7 +70,7 @@ const StreamList = () => {
         <ul>
           {predefinedTopMovies.map((movie, index) => (
             <li key={index}>
-              {movie} <button onClick={() => handleAddItem(movie)}>Add</button>
+              {movie} <button onClick={() => handleAddItemInternal(movie)}>Add</button>
             </li>
           ))}
         </ul>
@@ -94,7 +81,7 @@ const StreamList = () => {
         <ul>
           {predefinedNewMovies.map((movie, index) => (
             <li key={index}>
-              {movie} <button onClick={() => handleAddItem(movie)}>Add</button>
+              {movie} <button onClick={() => handleAddItemInternal(movie)}>Add</button>
             </li>
           ))}
         </ul>
@@ -105,25 +92,11 @@ const StreamList = () => {
         <ul>
           {myList.map((item, index) => (
             <li key={index} style={{ textDecoration: item.completed ? 'line-through' : 'none' }}>
-              {editIndex === index ? (
-                <>
-                  <input
-                    type="text"
-                    value={editInput}
-                    onChange={handleEditChange}
-                  />
-                  <button onClick={() => handleEditSubmit(index)}>Save</button>
-                </>
-              ) : (
-                <>
-                  {item.text}
-                  <button onClick={() => setEditIndex(index)}>Edit</button>
-                  <button onClick={() => handleDelete(index)}>Delete</button>
-                  <button onClick={() => handleComplete(index)}>
-                    {item.completed ? 'Undo' : 'Complete'}
-                  </button>
-                </>
-              )}
+              {item.text}
+              <button onClick={() => handleDeleteItem(index)}>Delete</button>
+              <button onClick={() => handleComplete(index)}>
+                {item.completed ? 'Undo' : 'Complete'}
+              </button>
             </li>
           ))}
         </ul>
