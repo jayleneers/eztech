@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const StreamList = ({ handleAddItem, handleDeleteItem }) => {
-  const [myList, setMyList] = useState(() => {
-    const saved = localStorage.getItem('myList');
-    return saved ? JSON.parse(saved) : [];
-  });
+const StreamList = ({ handleAddItem, handleDeleteItem, myList }) => {
   const [searchInput, setSearchInput] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
@@ -19,10 +15,6 @@ const StreamList = ({ handleAddItem, handleDeleteItem }) => {
   useEffect(() => {
     localStorage.setItem('myList', JSON.stringify(myList));
   }, [myList]);
-
-  const handleAddItemInternal = (item) => {
-    setMyList((prev) => [...prev, { text: item, completed: false }]);
-  };
 
   const handleSearchChange = (e) => {
     setSearchInput(e.target.value);
@@ -40,11 +32,8 @@ const StreamList = ({ handleAddItem, handleDeleteItem }) => {
     }
   };
 
-  const handleComplete = (index) => {
-    const updatedList = myList.map((item, i) =>
-      i === index ? { ...item, completed: !item.completed } : item
-    );
-    setMyList(updatedList);
+  const isInMyList = (movie) => {
+    return myList.some((item) => item.text === movie);
   };
 
   return (
@@ -70,7 +59,12 @@ const StreamList = ({ handleAddItem, handleDeleteItem }) => {
         <ul>
           {predefinedTopMovies.map((movie, index) => (
             <li key={index}>
-              {movie} <button onClick={() => handleAddItemInternal(movie)}>Add</button>
+              {movie} 
+              {isInMyList(movie) ? (
+                <button onClick={() => handleDeleteItem(myList.findIndex(item => item.text === movie))}>Remove</button>
+              ) : (
+                <button onClick={() => handleAddItem(movie)}>Add</button>
+              )}
             </li>
           ))}
         </ul>
@@ -81,7 +75,12 @@ const StreamList = ({ handleAddItem, handleDeleteItem }) => {
         <ul>
           {predefinedNewMovies.map((movie, index) => (
             <li key={index}>
-              {movie} <button onClick={() => handleAddItemInternal(movie)}>Add</button>
+              {movie} 
+              {isInMyList(movie) ? (
+                <button onClick={() => handleDeleteItem(myList.findIndex(item => item.text === movie))}>Remove</button>
+              ) : (
+                <button onClick={() => handleAddItem(movie)}>Add</button>
+              )}
             </li>
           ))}
         </ul>
@@ -94,9 +93,6 @@ const StreamList = ({ handleAddItem, handleDeleteItem }) => {
             <li key={index} style={{ textDecoration: item.completed ? 'line-through' : 'none' }}>
               {item.text}
               <button onClick={() => handleDeleteItem(index)}>Delete</button>
-              <button onClick={() => handleComplete(index)}>
-                {item.completed ? 'Undo' : 'Complete'}
-              </button>
             </li>
           ))}
         </ul>

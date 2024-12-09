@@ -30,7 +30,7 @@ const App = () => {
       <div>
         <Navbar />
         <Routes>
-          <Route path="/" element={<StreamList handleAddItem={handleAddItem} handleDeleteItem={handleDeleteItem} />} />
+          <Route path="/" element={<StreamList handleAddItem={handleAddItem} handleDeleteItem={handleDeleteItem} myList={myList} />} />
           <Route path="/movies" element={<Movies handleAddItem={handleAddItem} handleDeleteItem={handleDeleteItem} myList={myList} />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/about" element={<About />} />
@@ -39,5 +39,13 @@ const App = () => {
     </Router>
   );
 };
-
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js').then((registration) => {
+      console.log('ServiceWorker registration successful with scope: ', registration.scope);
+    }, (error) => {
+      console.log('ServiceWorker registration failed: ', error);
+    });
+  });
+}
 export default App;

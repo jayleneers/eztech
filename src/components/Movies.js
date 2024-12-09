@@ -6,20 +6,21 @@ const Movies = ({ handleAddItem, handleDeleteItem, myList }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    console.log('API Key:', process.env.REACT_APP_TMDB_API_KEY); // Check if the API key is loaded
     const fetchMovies = async () => {
       try {
         const response = await axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_TMDB_API_KEY}`);
-        console.log('API Response:', response.data); // Log the API response
         setMovies(response.data.results);
       } catch (error) {
         setError('Error fetching movies');
-        console.error('Error fetching movies:', error);
       }
     };
 
     fetchMovies();
   }, []);
+
+  const isInMyList = (movie) => {
+    return myList.some((item) => item.text === movie);
+  };
 
   return (
     <div>
@@ -31,7 +32,11 @@ const Movies = ({ handleAddItem, handleDeleteItem, myList }) => {
             <h2>{movie.title}</h2>
             <p>{movie.overview}</p>
             <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} />
-            <button onClick={() => handleAddItem(movie.title)}>Add to My List</button>
+            {isInMyList(movie.title) ? (
+              <button onClick={() => handleDeleteItem(myList.findIndex(item => item.text === movie.title))}>Remove from My List</button>
+            ) : (
+              <button onClick={() => handleAddItem(movie.title)}>Add to My List</button>
+            )}
           </li>
         ))}
       </ul>
